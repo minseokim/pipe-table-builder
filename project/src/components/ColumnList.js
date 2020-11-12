@@ -1,28 +1,40 @@
 import React from 'react';
 import { Pane, UnorderedList } from 'evergreen-ui';
-import { map as _map } from 'lodash';
+import PropTypes from 'prop-types';
 import Column from './Column';
-import customerData from '../dataSource/customerData';
 
-const ColumnList = () => {
+const ColumnList = ({ columnSettings }) => {
+  const columnNameList = Object.keys(columnSettings);
+
   return (
     <Pane>
       <UnorderedList>
-        {customerData && customerData.length
-          ? _map(customerData[0], (value, key) => {
-              const isFilterable = !Number.isNaN(Number(value));
-              return (
-                <Column
-                  key={value.name}
-                  name={key}
-                  isFilterable={isFilterable}
-                />
-              );
-            })
-          : null}
+        {columnNameList.map((columnName) => {
+          const columnSetting = columnSettings[columnName];
+
+          return (
+            <Column
+              key={columnSetting.id}
+              name={columnSetting.name}
+              isFilterable={columnSetting.isFilterable}
+            />
+          );
+        })}
       </UnorderedList>
     </Pane>
   );
+};
+
+ColumnList.propTypes = {
+  columnSettings: PropTypes.shape(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      isFilterable: PropTypes.bool,
+      filterAmount: PropTypes.number,
+      isSelected: PropTypes.bool.isRequired,
+    })
+  ).isRequired,
 };
 
 export default ColumnList;
