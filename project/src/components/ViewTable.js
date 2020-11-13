@@ -2,10 +2,13 @@ import React from 'react';
 import { Pane, Table } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 
-const ViewTable = ({ columnSettings, customerData }) => {
+const ViewTable = ({ columnSettings, customerDataList }) => {
   const selectedColumnList = Object.keys(columnSettings).filter(
     (columnName) => columnSettings[columnName].shouldDisplay
   );
+
+  // TODO : Apply filter logic here to every data row(customerData)
+  const applyFilters = () => true;
 
   return (
     <Pane flex={3} background="tint1">
@@ -15,17 +18,15 @@ const ViewTable = ({ columnSettings, customerData }) => {
             <Table.TextHeaderCell key={column}>{column}</Table.TextHeaderCell>
           ))}
         </Table.Head>
-        <Table.VirtualBody height={240}>
-          {customerData.map((customerName) => {
+        <Table.VirtualBody allowAutoHeight height={600}>
+          {customerDataList.filter(applyFilters).map((customerData) => {
             return (
-              <Table.Row key={customerName.invoiceNo}>
-                <Table.TextCell>{customerName.customerName}</Table.TextCell>
-                <Table.TextCell>{customerName.status}</Table.TextCell>
-                <Table.TextCell>{customerName.syncedFrom}</Table.TextCell>
-                <Table.TextCell>{customerName.startDate}</Table.TextCell>
-                <Table.TextCell>{customerName.mrr}</Table.TextCell>
-                <Table.TextCell>{customerName.termLength}</Table.TextCell>
-                <Table.TextCell>{customerName.invoiceNo}</Table.TextCell>
+              <Table.Row key={customerData.invoiceNo}>
+                {selectedColumnList.map((columnKey) => (
+                  <Table.TextCell key={columnKey}>
+                    {customerData[columnKey]}
+                  </Table.TextCell>
+                ))}
               </Table.Row>
             );
           })}
@@ -36,7 +37,7 @@ const ViewTable = ({ columnSettings, customerData }) => {
 };
 
 ViewTable.propTypes = {
-  customerData: PropTypes.arrayOf(
+  customerDataList: PropTypes.arrayOf(
     PropTypes.shape({
       customerName: PropTypes.string.isRequired,
       status: PropTypes.string.isRequired,

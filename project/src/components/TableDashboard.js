@@ -8,13 +8,13 @@ import customerDataSource from '../dataSource/customerDataSource';
 
 const TableDashboard = () => {
   // eslint-disable-next-line no-unused-vars
-  const [customerData, setCustomerData] = useState(customerDataSource);
+  const [customerDataList, setCustomerDataList] = useState(customerDataSource);
 
   const [columnSettings, setColumnSettings] = useState(null);
 
   useEffect(() => {
-    if (customerData && customerData.length) {
-      const firstCustomerData = customerData[0];
+    if (customerDataList && customerDataList.length) {
+      const firstCustomerData = customerDataList[0];
 
       const initialColumnSettings = {};
 
@@ -32,7 +32,7 @@ const TableDashboard = () => {
 
       setColumnSettings(initialColumnSettings);
     }
-  }, [customerData]);
+  }, [customerDataList]);
 
   const handleColumnToggle = (columnName, isSelected) => {
     setColumnSettings(
@@ -59,7 +59,7 @@ const TableDashboard = () => {
           />
           <ViewTable
             columnSettings={columnSettings}
-            customerData={customerData}
+            customerDataList={customerDataList}
           />
         </>
       ) : null}
