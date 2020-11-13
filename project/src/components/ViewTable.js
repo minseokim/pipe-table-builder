@@ -1,4 +1,4 @@
-import { Pane, Table } from 'evergreen-ui';
+import { majorScale, minorScale, Pane, Table } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import {
@@ -46,12 +46,12 @@ const ViewTable = ({ columnSettings, customerDataList }) => {
   return (
     <Pane flex={3} background="tint1">
       <Table>
-        <Table.Head>
+        <Table.Head height={minorScale(13)}>
           {selectedColumnNameList.map((name) => (
             <Table.TextHeaderCell key={name}>{name}</Table.TextHeaderCell>
           ))}
         </Table.Head>
-        <Table.VirtualBody allowAutoHeight height={600}>
+        <Table.VirtualBody allowAutoHeight height={majorScale(100)}>
           {customerDataList.filter(applyFilters).map((customerData) => {
             return (
               <Table.Row key={customerData.invoiceNo}>

@@ -1,6 +1,7 @@
 import {
   Button,
   Heading,
+  majorScale,
   Pane,
   SelectField,
   Text,
@@ -17,6 +18,7 @@ export const EQUAL_TO = 'Equal To';
 export const NOT_EQUAL_TO = `Doesn't Equal`;
 
 const FilterPopover = ({
+  filterName,
   filterOperator,
   filterAmount,
   closePopover,
@@ -25,6 +27,7 @@ const FilterPopover = ({
   const [filterOperatorInput, setFilterOperatorInput] = useState(
     filterOperator
   );
+  // Default to 0 if null
   const [filterAmountInput, setFilterAmountInput] = useState(filterAmount || 0);
 
   const handleSaveButtonClick = () => {
@@ -47,13 +50,26 @@ const FilterPopover = ({
   };
 
   return (
-    <Pane width={240} height={240}>
-      <Text>Filter For</Text>
-      <Heading>Term Length</Heading>
-      <Pane display="flex" alignItems="center" justifyContent="center">
+    <Pane
+      width={400}
+      height={240}
+      paddingTop={majorScale(2)}
+      paddingBottom={majorScale(2)}
+      paddingLeft={majorScale(4)}
+      paddingRight={majorScale(4)}
+      display="flex"
+      justifyContent="center"
+      alignItems="flex-start"
+      flexDirection="column"
+    >
+      <Pane>
+        <Text>Filter For</Text>
+        <Heading>{filterName}</Heading>
+      </Pane>
+      <Pane display="flex" marginTop={majorScale(2)}>
         <SelectField
           label="Operator"
-          description="Select an Operator"
+          marginRight={majorScale(4)}
           value={filterOperatorInput}
           onChange={handleFilterOperatorInputChange}
         >
@@ -75,7 +91,11 @@ const FilterPopover = ({
         />
       </Pane>
       <Pane display="flex">
-        <Button appearance="primary" onClick={handleSaveButtonClick}>
+        <Button
+          appearance="primary"
+          onClick={handleSaveButtonClick}
+          marginRight={majorScale(1)}
+        >
           Save
         </Button>
         <Button appearance="default" onClick={handleClearButtonClick}>
@@ -86,14 +106,10 @@ const FilterPopover = ({
   );
 };
 
-FilterPopover.defaultProps = {
-  filterOperator: NO_OPERATOR_SELECTED,
-  filterAmount: 0,
-};
-
 FilterPopover.propTypes = {
-  filterOperator: PropTypes.string,
-  filterAmount: PropTypes.number,
+  filterName: PropTypes.string.isRequired,
+  filterOperator: PropTypes.string.isRequired,
+  filterAmount: PropTypes.number.isRequired,
   closePopover: PropTypes.func.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
 };

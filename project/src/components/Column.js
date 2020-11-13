@@ -21,27 +21,17 @@ const Column = ({
   isFilterable,
   filterOperator,
   filterAmount,
-
   onApplyFilter,
   onColumnToggle,
   shouldDisplay,
 }) => {
   const handleCheckboxChange = ({ target: { checked } }) => {
-    // Clear Filter Inputs when deselected
-    if (!checked) {
-      // setFilterOperatorInput(NO_OPERATOR_SELECTED);
-      // setFilterAmountInput(0);
-    }
-
     // Be sure to pass id here, instead of name
     // ex) key : 'termLength', name: 'Term Length'
     onColumnToggle(id, checked);
   };
 
   const handleApplyFilter = (operator, amount) => {
-    // setFilterOperatorInput(operator);
-    // setFilterAmountInput(amount);
-
     onApplyFilter(id, operator, amount);
   };
 
@@ -81,6 +71,7 @@ const Column = ({
                   <FilterPopover
                     filterOperator={filterOperator}
                     filterAmount={filterAmount}
+                    filterName={name}
                     closePopover={close}
                     onApplyFilter={handleApplyFilter}
                   />

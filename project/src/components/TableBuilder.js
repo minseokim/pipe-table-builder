@@ -41,8 +41,6 @@ const TableBuilder = () => {
       produce(
         (columnSettings,
         (draftColumnSettings) => {
-          console.log('columnName :', columnName);
-
           // Update isSelected
           draftColumnSettings[columnName].shouldDisplay = isSelected;
 
