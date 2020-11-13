@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
+import { toaster } from 'evergreen-ui';
 import produce from 'immer';
 import React, { useEffect, useState } from 'react';
 import customerDataSource from '../dataSource/customerDataSource';
+import { NO_OPERATOR_SELECTED } from './FilterPopover';
 import Header from './Header';
 import TableDashboard from './TableDashboard';
 
-// TODO : Refactor using Context
+// TODO :
 //        Disable operatorAmount when 'No Operator' is selected in filter
 //        Add color to column when selected
 //        Validate JSON Config(Nice-to-have)
@@ -45,14 +47,22 @@ const TableBuilder = () => {
       produce(
         (columnSettings,
         (draftColumnSettings) => {
+          // Update isSelected
           draftColumnSettings[columnName].shouldDisplay = isSelected;
+
+          // If a column is de-selected, clear out filters
+          if (!isSelected) {
+            draftColumnSettings[
+              columnName
+            ].filterOperator = NO_OPERATOR_SELECTED;
+            draftColumnSettings[columnName].filterAmount = null;
+          }
         })
       )
     );
   };
 
   const handleApplyFilter = (columnName, filterOperator, filterAmount) => {
-    console.log('columnName', columnName, filterOperator, filterAmount);
     setColumnSettings(
       produce(
         (columnSettings,
@@ -70,7 +80,12 @@ const TableBuilder = () => {
   };
 
   const handleExportConfig = () => {
+    const exportJSONConfig = JSON.stringify(columnSettings);
+    navigator.clipboard.writeText(exportJSONConfig);
     // Export current state
+    toaster.success('Table Settings', {
+      description: `Table Settings Copied to Clipboard Successfully`,
+    });
   };
 
   return (

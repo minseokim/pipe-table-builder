@@ -25,10 +25,6 @@ const Header = ({ onImportConfig, onExportConfig }) => {
       onImportConfig(JSON.parse(importJSONConfig));
     }
   };
-  const onExportButtonClick = () => {
-    // Copy settings to clipboard
-    onExportConfig();
-  };
 
   return (
     <Pane
@@ -61,7 +57,7 @@ const Header = ({ onImportConfig, onExportConfig }) => {
           />
         </Dialog>
         <Button onClick={() => setShowImportDialog(true)}> Import </Button>
-        <Button onClick={onExportButtonClick}> Export </Button>
+        <Button onClick={onExportConfig}> Export </Button>
       </Pane>
     </Pane>
   );
