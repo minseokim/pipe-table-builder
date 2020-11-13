@@ -1,20 +1,21 @@
-import { Pane, UnorderedList } from 'evergreen-ui';
+import { majorScale, Pane, UnorderedList } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import Column from './Column';
 
 const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
-  const columnNameList = Object.keys(columnSettings);
+  const columnIDList = Object.keys(columnSettings);
 
   return (
-    <Pane>
-      <UnorderedList>
-        {columnNameList.map((columnName) => {
-          const columnSetting = columnSettings[columnName];
+    <Pane width="100%">
+      <UnorderedList marginLeft={0} paddingLeft={majorScale(1)}>
+        {columnIDList.map((columnID) => {
+          const columnSetting = columnSettings[columnID];
 
           return (
             <Column
               key={columnSetting.id}
+              id={columnSetting.id}
               name={columnSetting.name}
               isFilterable={columnSetting.isFilterable}
               shouldDisplay={columnSetting.shouldDisplay}

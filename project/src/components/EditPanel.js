@@ -1,13 +1,21 @@
 import { Heading, majorScale, Pane } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
+import COLORS from '../colors';
 import ColumnList from './ColumnList';
 
 const EditPanel = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
   return (
     <Pane flex={1} background="tint2" border="default" borderTop="muted">
-      <Pane>
-        <Heading size={600} color="blue" marginTop={majorScale(2)}>
+      <Pane display="flex" flexDirection="column" alignItems="flex-start">
+        <Heading
+          size={400}
+          color={COLORS.blue.base}
+          marginTop={majorScale(2)}
+          marginBottom={majorScale(2)}
+          paddingLeft={majorScale(2)}
+          className="edit-panel--heading"
+        >
           Edit Panel
         </Heading>
         <ColumnList

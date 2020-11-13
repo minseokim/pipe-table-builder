@@ -1,17 +1,12 @@
 /* eslint-disable no-param-reassign */
 import { toaster } from 'evergreen-ui';
 import produce from 'immer';
+import { startCase } from 'lodash';
 import React, { useEffect, useState } from 'react';
 import customerDataSource from '../dataSource/customerDataSource';
 import { NO_OPERATOR_SELECTED } from './FilterPopover';
 import Header from './Header';
 import TableDashboard from './TableDashboard';
-
-// TODO :
-//        Add color to column when selected
-//        Validate JSON Config(Nice-to-have)
-//        Styling
-//        Unit Tests()
 
 const TableBuilder = () => {
   // eslint-disable-next-line no-unused-vars
@@ -29,7 +24,7 @@ const TableBuilder = () => {
         const value = firstCustomerData[key];
         initialColumnSettings[key] = {
           id: key,
-          name: key,
+          name: startCase(key),
           isFilterable: !Number.isNaN(Number(value)),
           filterOperator: null,
           filterAmount: null,
@@ -46,6 +41,8 @@ const TableBuilder = () => {
       produce(
         (columnSettings,
         (draftColumnSettings) => {
+          console.log('columnName :', columnName);
+
           // Update isSelected
           draftColumnSettings[columnName].shouldDisplay = isSelected;
 

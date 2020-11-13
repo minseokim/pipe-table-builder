@@ -34,7 +34,7 @@ const Header = ({ onImportConfig, onExportConfig }) => {
       justifyContent="space-between"
     >
       <Pane marginLeft={majorScale(2)}>
-        <Heading size={600}>Subscriptions List</Heading>
+        <Heading size={400}>Subscriptions List</Heading>
       </Pane>
 
       {/* Import Dialog */}
@@ -57,7 +57,13 @@ const Header = ({ onImportConfig, onExportConfig }) => {
             height={250}
           />
         </Dialog>
-        <Button onClick={() => setShowImportDialog(true)}> Import </Button>
+        <Button
+          onClick={() => setShowImportDialog(true)}
+          marginRight={majorScale(2)}
+        >
+          {' '}
+          Import{' '}
+        </Button>
         <Button onClick={onExportConfig}> Export </Button>
       </Pane>
     </Pane>

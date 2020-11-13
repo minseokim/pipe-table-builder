@@ -4,6 +4,7 @@ import {
   Checkbox,
   ListItem,
   majorScale,
+  minorScale,
   Pane,
   Pill,
   Popover,
@@ -15,6 +16,7 @@ import './Column.css';
 import FilterPopover, { NO_OPERATOR_SELECTED } from './FilterPopover';
 
 const Column = ({
+  id,
   name,
   isFilterable,
   onApplyFilter,
@@ -40,15 +42,16 @@ const Column = ({
       setFilterAmount(0);
     }
 
-    // Call Event Handler from Parent
-    onColumnToggle(name, checked);
+    // Be sure to pass id here, instead of name
+    // ex) key : 'termLength', name: 'Term Length'
+    onColumnToggle(id, checked);
   };
 
   const handleApplyFilter = (operator, amount) => {
     setFilterOperator(operator);
     setFilterAmount(amount);
 
-    onApplyFilter(name, operator, amount);
+    onApplyFilter(id, operator, amount);
   };
 
   return (
@@ -57,6 +60,8 @@ const Column = ({
       justifyContent="space-between"
       alignItems="center"
       className={shouldDisplay ? 'selected' : null}
+      paddingLeft={majorScale(1)}
+      margin={0}
     >
       <Pane display="flex" alignItems="center">
         <Checkbox
@@ -66,14 +71,16 @@ const Column = ({
         />
         <Text>{name}</Text>
       </Pane>
-      <Pane display="flex">
+      <Pane display="flex" alignItems="center">
         {isFilterable ? (
           <>
             {filterOperator ? (
               <>
                 <Pane>
-                  <Badge>{filterOperator}</Badge>
-                  <Pill>{filterAmount}</Pill>
+                  <Badge isSolid marginRight={minorScale(1)}>
+                    {filterOperator}
+                  </Badge>
+                  <Pill isSolid>{filterAmount}</Pill>
                 </Pane>
               </>
             ) : null}
@@ -104,6 +111,7 @@ const Column = ({
 };
 
 Column.propTypes = {
+  id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isFilterable: PropTypes.bool.isRequired,
   shouldDisplay: PropTypes.bool.isRequired,

@@ -1,21 +1,24 @@
-import React from 'react';
 import { Pane, Table } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import React from 'react';
 import {
-  NO_OPERATOR_SELECTED,
+  EQUAL_TO,
   GREATER_THAN,
   LESS_THAN,
-  EQUAL_TO,
   NOT_EQUAL_TO,
+  NO_OPERATOR_SELECTED,
 } from './FilterPopover';
 
 const ViewTable = ({ columnSettings, customerDataList }) => {
-  const columnNameList = Object.keys(columnSettings);
-  const selectedColumnList = columnNameList.filter(
-    (columnName) => columnSettings[columnName].shouldDisplay
+  const columnIDList = Object.keys(columnSettings);
+  const selectedColumnIDList = columnIDList.filter(
+    (ID) => columnSettings[ID].shouldDisplay
+  );
+  const selectedColumnNameList = selectedColumnIDList.map(
+    (ID) => columnSettings[ID].name
   );
 
-  const filterList = selectedColumnList.filter(
+  const filterList = selectedColumnIDList.filter(
     (columnName) => columnSettings[columnName].filterOperator
   );
 
@@ -44,18 +47,16 @@ const ViewTable = ({ columnSettings, customerDataList }) => {
     <Pane flex={3} background="tint1">
       <Table>
         <Table.Head>
-          {selectedColumnList.map((column) => (
-            <Table.TextHeaderCell key={column}>{column}</Table.TextHeaderCell>
+          {selectedColumnNameList.map((name) => (
+            <Table.TextHeaderCell key={name}>{name}</Table.TextHeaderCell>
           ))}
         </Table.Head>
         <Table.VirtualBody allowAutoHeight height={600}>
           {customerDataList.filter(applyFilters).map((customerData) => {
             return (
               <Table.Row key={customerData.invoiceNo}>
-                {selectedColumnList.map((columnKey) => (
-                  <Table.TextCell key={columnKey}>
-                    {customerData[columnKey]}
-                  </Table.TextCell>
+                {selectedColumnIDList.map((ID) => (
+                  <Table.TextCell key={ID}>{customerData[ID]}</Table.TextCell>
                 ))}
               </Table.Row>
             );
