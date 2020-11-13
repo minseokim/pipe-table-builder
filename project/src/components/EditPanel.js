@@ -3,14 +3,17 @@ import { Pane, Heading, majorScale } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import ColumnList from './ColumnList';
 
-const EditPanel = ({ columnSettings }) => {
+const EditPanel = ({ columnSettings, onColumnToggle }) => {
   return (
     <Pane flex={1} background="tint2" border="default" borderTop="muted">
       <Pane>
         <Heading size={600} color="blue" marginTop={majorScale(2)}>
           Edit Panel
         </Heading>
-        <ColumnList columnSettings={columnSettings} />
+        <ColumnList
+          columnSettings={columnSettings}
+          onColumnToggle={onColumnToggle}
+        />
       </Pane>
     </Pane>
   );
@@ -23,9 +26,10 @@ EditPanel.propTypes = {
       name: PropTypes.string.isRequired,
       isFilterable: PropTypes.bool,
       filterAmount: PropTypes.number,
-      isSelected: PropTypes.bool.isRequired,
+      shouldDisplay: PropTypes.bool.isRequired,
     })
   ).isRequired,
+  onColumnToggle: PropTypes.func.isRequired,
 };
 
 export default EditPanel;

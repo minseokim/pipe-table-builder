@@ -1,5 +1,7 @@
+/* eslint-disable no-param-reassign */
 import React, { useState, useEffect } from 'react';
 import { Pane, majorScale } from 'evergreen-ui';
+import { produce } from 'immer';
 import EditPanel from './EditPanel';
 import ViewTable from './ViewTable';
 import customerData from '../dataSource/customerData';
@@ -21,13 +23,24 @@ const TableDashboard = () => {
           isFilterable: !Number.isNaN(Number(value)),
           filterOperator: null,
           filterAmount: null,
-          isSelected: false,
+          shouldDisplay: false,
         };
       });
 
       setColumnSettings(initialColumnSettings);
     }
   }, [customerData]);
+
+  const handleColumnToggle = (columnName, isSelected) => {
+    setColumnSettings(
+      produce(
+        (columnSettings,
+        (draftColumnSettings) => {
+          draftColumnSettings[columnName].shouldDisplay = isSelected;
+        })
+      )
+    );
+  };
 
   return (
     <Pane
@@ -37,7 +50,10 @@ const TableDashboard = () => {
     >
       {columnSettings ? (
         <>
-          <EditPanel columnSettings={columnSettings} />
+          <EditPanel
+            columnSettings={columnSettings}
+            onColumnToggle={handleColumnToggle}
+          />
           <ViewTable />
         </>
       ) : null}
