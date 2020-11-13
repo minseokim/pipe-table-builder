@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
 import {
-  ListItem,
-  Pane,
-  Checkbox,
   Button,
+  Checkbox,
+  ListItem,
   majorScale,
+  Pane,
   Popover,
   Text,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import FilterPopover, { NO_OPERATOR_SELECTED } from './FilterPopover';
 
 const Column = ({
@@ -18,8 +18,6 @@ const Column = ({
   onColumnToggle,
   shouldDisplay,
 }) => {
-  const [isColumnSelected, setIsColumnSelected] = useState(shouldDisplay);
-
   const [filterOperator, setFilterOperator] = useState(NO_OPERATOR_SELECTED);
 
   const [filterAmount, setFilterAmount] = useState(0);
@@ -33,8 +31,6 @@ const Column = ({
   };
 
   const handleCheckboxChange = ({ target }) => {
-    // Toggle Checkbox
-    setIsColumnSelected(target.checked);
     // Set Background Row Color
     // Call Event Handler from Parent
     onColumnToggle(name, target.checked);
@@ -51,7 +47,7 @@ const Column = ({
     <ListItem display="flex" justifyContent="space-between" alignItems="center">
       <Pane display="flex" alignItems="center">
         <Checkbox
-          checked={isColumnSelected}
+          checked={shouldDisplay}
           marginRight={majorScale(1)}
           onChange={handleCheckboxChange}
         />
@@ -72,7 +68,7 @@ const Column = ({
             );
           }}
         >
-          <Button disabled={!isColumnSelected} marginRight={majorScale(2)}>
+          <Button disabled={!shouldDisplay} marginRight={majorScale(2)}>
             Filter
           </Button>
         </Popover>

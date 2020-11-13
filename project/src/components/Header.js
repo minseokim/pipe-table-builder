@@ -7,18 +7,27 @@ import {
   Pane,
   Textarea,
 } from 'evergreen-ui';
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 const IMPORT_BUTTON_COPY = `Import Table Config`;
 
-const Header = () => {
+const Header = ({ onImportConfig, onExportConfig }) => {
   const [showImportDialog, setShowImportDialog] = useState(false);
 
-  const handleImportClick = () => {
-    setShowImportDialog(true);
+  const [importJSONConfig, setImportJSONConfig] = useState(null);
+
+  const handleImportConfig = () => {
+    console.log('importJSONConfig :', importJSONConfig);
+    setShowImportDialog(false);
+    if (importJSONConfig) {
+      // Validate JSON here
+      onImportConfig(JSON.parse(importJSONConfig));
+    }
   };
-  const handleExportClick = () => {
+  const onExportButtonClick = () => {
     // Copy settings to clipboard
+    onExportConfig();
   };
 
   return (
@@ -37,21 +46,30 @@ const Header = () => {
         <Dialog
           isShown={showImportDialog}
           title="Dialog title"
-          onCloseComplete={() => {
-            setShowImportDialog(false);
-          }}
+          onCloseComplete={handleImportConfig}
           confirmLabel={IMPORT_BUTTON_COPY}
         >
           <Label htmlFor="json-area" marginBottom={4} display="block">
             Import Table Settings
           </Label>
-          <Textarea id="json-area" placeholder="Paste JSON Config Here" />
+          <Textarea
+            id="json-area"
+            placeholder="Paste JSON Config Here"
+            onChange={({ target: { value } }) => {
+              setImportJSONConfig(value);
+            }}
+          />
         </Dialog>
-        <Button onClick={handleImportClick}> Import </Button>
-        <Button onClick={handleExportClick}> Export </Button>
+        <Button onClick={() => setShowImportDialog(true)}> Import </Button>
+        <Button onClick={onExportButtonClick}> Export </Button>
       </Pane>
     </Pane>
   );
+};
+
+Header.propTypes = {
+  onImportConfig: PropTypes.func.isRequired,
+  onExportConfig: PropTypes.func.isRequired,
 };
 
 export default Header;

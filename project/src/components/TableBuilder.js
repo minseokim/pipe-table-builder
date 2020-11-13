@@ -64,11 +64,23 @@ const TableBuilder = () => {
     );
   };
 
+  const handleImportConfig = (columnSettingsImport) => {
+    console.log('import :', columnSettingsImport);
+    setColumnSettings(columnSettingsImport);
+  };
+
+  const handleExportConfig = () => {
+    // Export current state
+  };
+
   return (
     <>
       {columnSettings ? (
         <>
-          <Header />
+          <Header
+            onImportConfig={handleImportConfig}
+            onExportConfig={handleExportConfig}
+          />
           <TableDashboard
             columnSettings={columnSettings}
             customerDataList={customerDataList}
