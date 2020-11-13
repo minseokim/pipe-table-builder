@@ -3,7 +3,7 @@ import { Pane, UnorderedList } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import Column from './Column';
 
-const ColumnList = ({ columnSettings, onColumnToggle }) => {
+const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
   const columnNameList = Object.keys(columnSettings);
 
   return (
@@ -18,6 +18,7 @@ const ColumnList = ({ columnSettings, onColumnToggle }) => {
               name={columnSetting.name}
               isFilterable={columnSetting.isFilterable}
               shouldDisplay={columnSetting.shouldDisplay}
+              onApplyFilter={onApplyFilter}
               onColumnToggle={onColumnToggle}
             />
           );
@@ -37,6 +38,7 @@ ColumnList.propTypes = {
       shouldDisplay: PropTypes.bool.isRequired,
     }).isRequired
   ).isRequired,
+  onApplyFilter: PropTypes.func.isRequired,
   onColumnToggle: PropTypes.func.isRequired,
 };
 

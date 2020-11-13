@@ -9,8 +9,15 @@ import {
   Text,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import FilterPopover from './FilterPopover';
 
-const Column = ({ name, isFilterable, onColumnToggle, shouldDisplay }) => {
+const Column = ({
+  name,
+  isFilterable,
+  onApplyFilter,
+  onColumnToggle,
+  shouldDisplay,
+}) => {
   const [isColumnSelected, setIsColumnSelected] = useState(shouldDisplay);
 
   const handleCheckboxChange = ({ target }) => {
@@ -19,6 +26,10 @@ const Column = ({ name, isFilterable, onColumnToggle, shouldDisplay }) => {
     // Set Background Row Color
     // Call Event Handler from Parent
     onColumnToggle(name, target.checked);
+  };
+
+  const handleApplyFilter = (filterOperator, filterAmount) => {
+    onApplyFilter(name, filterOperator, filterAmount);
   };
 
   return (
@@ -33,20 +44,18 @@ const Column = ({ name, isFilterable, onColumnToggle, shouldDisplay }) => {
       </Pane>
       {isFilterable ? (
         <Popover
-          content={
-            <Pane
-              width={400}
-              height={240}
-              display="flex"
-              alignItems="center"
-              justifyContent="center"
-              flexDirection="column"
-            >
-              <Text>PopoverContent</Text>
-            </Pane>
-          }
+          content={({ close }) => {
+            return (
+              <FilterPopover
+                closePopover={close}
+                onApplyFilter={handleApplyFilter}
+              />
+            );
+          }}
         >
-          <Button marginRight={majorScale(2)}>Filter</Button>
+          <Button disabled={!isColumnSelected} marginRight={majorScale(2)}>
+            Filter
+          </Button>
         </Popover>
       ) : null}
     </ListItem>
@@ -57,6 +66,7 @@ Column.propTypes = {
   name: PropTypes.string.isRequired,
   isFilterable: PropTypes.bool.isRequired,
   shouldDisplay: PropTypes.bool.isRequired,
+  onApplyFilter: PropTypes.func.isRequired,
   onColumnToggle: PropTypes.func.isRequired,
 };
 

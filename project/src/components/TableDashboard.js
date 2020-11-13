@@ -45,6 +45,19 @@ const TableDashboard = () => {
     );
   };
 
+  const handleApplyFilter = (columnName, filterOperator, filterAmount) => {
+    console.log('columnName', columnName, filterOperator, filterAmount);
+    setColumnSettings(
+      produce(
+        (columnSettings,
+        (draftColumnSettings) => {
+          draftColumnSettings[columnName].filterOperator = filterOperator;
+          draftColumnSettings[columnName].filterAmount = filterAmount;
+        })
+      )
+    );
+  };
+
   return (
     <Pane
       height={`calc(100vh - ${majorScale(7)}px)`}
@@ -56,6 +69,7 @@ const TableDashboard = () => {
           <EditPanel
             columnSettings={columnSettings}
             onColumnToggle={handleColumnToggle}
+            onApplyFilter={handleApplyFilter}
           />
           <ViewTable
             columnSettings={columnSettings}
