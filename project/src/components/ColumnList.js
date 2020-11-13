@@ -1,6 +1,6 @@
-import React from 'react';
 import { Pane, UnorderedList } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import React from 'react';
 import Column from './Column';
 
 const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
@@ -18,6 +18,7 @@ const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
               name={columnSetting.name}
               isFilterable={columnSetting.isFilterable}
               shouldDisplay={columnSetting.shouldDisplay}
+              filterAmount={columnSetting.filterAmount}
               onApplyFilter={onApplyFilter}
               onColumnToggle={onColumnToggle}
             />

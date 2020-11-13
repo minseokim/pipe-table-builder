@@ -1,10 +1,9 @@
-import React from 'react';
-import { Pane, Heading, majorScale } from 'evergreen-ui';
+import { Heading, majorScale, Pane } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import React from 'react';
 import ColumnList from './ColumnList';
 
 const EditPanel = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
-  console.log('columnSettings :', columnSettings);
   return (
     <Pane flex={1} background="tint2" border="default" borderTop="muted">
       <Pane>

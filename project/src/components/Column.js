@@ -1,14 +1,17 @@
 import {
+  Badge,
   Button,
   Checkbox,
   ListItem,
   majorScale,
   Pane,
+  Pill,
   Popover,
   Text,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import './Column.css';
 import FilterPopover, { NO_OPERATOR_SELECTED } from './FilterPopover';
 
 const Column = ({
@@ -30,10 +33,15 @@ const Column = ({
     setFilterAmount(+value);
   };
 
-  const handleCheckboxChange = ({ target }) => {
-    // Set Background Row Color
+  const handleCheckboxChange = ({ target: { checked } }) => {
+    // Clear Filter Inputs when deselected
+    if (!checked) {
+      setFilterOperator(NO_OPERATOR_SELECTED);
+      setFilterAmount(0);
+    }
+
     // Call Event Handler from Parent
-    onColumnToggle(name, target.checked);
+    onColumnToggle(name, checked);
   };
 
   const handleApplyFilter = (operator, amount) => {
@@ -44,7 +52,12 @@ const Column = ({
   };
 
   return (
-    <ListItem display="flex" justifyContent="space-between" alignItems="center">
+    <ListItem
+      display="flex"
+      justifyContent="space-between"
+      alignItems="center"
+      className={shouldDisplay ? 'selected' : null}
+    >
       <Pane display="flex" alignItems="center">
         <Checkbox
           checked={shouldDisplay}
@@ -53,26 +66,39 @@ const Column = ({
         />
         <Text>{name}</Text>
       </Pane>
-      {isFilterable ? (
-        <Popover
-          content={({ close }) => {
-            return (
-              <FilterPopover
-                filterOperator={filterOperator}
-                filterAmount={filterAmount}
-                closePopover={close}
-                onApplyFilter={handleApplyFilter}
-                onFilterOperatorChange={handleFilterOperatorChange}
-                onFilterAmountChange={handleFilterAmountChange}
-              />
-            );
-          }}
-        >
-          <Button disabled={!shouldDisplay} marginRight={majorScale(2)}>
-            Filter
-          </Button>
-        </Popover>
-      ) : null}
+      <Pane display="flex">
+        {isFilterable ? (
+          <>
+            {filterOperator ? (
+              <>
+                <Pane>
+                  <Badge>{filterOperator}</Badge>
+                  <Pill>{filterAmount}</Pill>
+                </Pane>
+              </>
+            ) : null}
+            <Popover
+              content={({ close }) => {
+                return (
+                  <FilterPopover
+                    filterOperator={filterOperator}
+                    filterAmount={filterAmount}
+                    closePopover={close}
+                    onApplyFilter={handleApplyFilter}
+                    onFilterOperatorChange={handleFilterOperatorChange}
+                    onFilterAmountChange={handleFilterAmountChange}
+                  />
+                );
+              }}
+              shouldCloseOnExternalClick={false}
+            >
+              <Button disabled={!shouldDisplay} marginRight={majorScale(2)}>
+                Filter
+              </Button>
+            </Popover>
+          </>
+        ) : null}
+      </Pane>
     </ListItem>
   );
 };

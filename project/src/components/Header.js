@@ -14,15 +14,13 @@ const IMPORT_BUTTON_COPY = `Import Table Config`;
 
 const Header = ({ onImportConfig, onExportConfig }) => {
   const [showImportDialog, setShowImportDialog] = useState(false);
-
-  const [importJSONConfig, setImportJSONConfig] = useState(null);
+  const [importedJSONConfig, setImportedJSONConfig] = useState(null);
 
   const handleImportConfig = () => {
-    console.log('importJSONConfig :', importJSONConfig);
     setShowImportDialog(false);
-    if (importJSONConfig) {
+    if (importedJSONConfig) {
       // Validate JSON here
-      onImportConfig(JSON.parse(importJSONConfig));
+      onImportConfig(JSON.parse(importedJSONConfig));
     }
   };
 
@@ -38,22 +36,25 @@ const Header = ({ onImportConfig, onExportConfig }) => {
       <Pane marginLeft={majorScale(2)}>
         <Heading size={600}>Subscriptions List</Heading>
       </Pane>
+
+      {/* Import Dialog */}
       <Pane marginRight={majorScale(2)}>
         <Dialog
           isShown={showImportDialog}
-          title="Dialog title"
+          title="Import Table Settings"
           onCloseComplete={handleImportConfig}
           confirmLabel={IMPORT_BUTTON_COPY}
         >
-          <Label htmlFor="json-area" marginBottom={4} display="block">
+          <Label htmlFor="json-config" marginBottom={4} display="block">
             Import Table Settings
           </Label>
           <Textarea
-            id="json-area"
+            id="json-config"
             placeholder="Paste JSON Config Here"
             onChange={({ target: { value } }) => {
-              setImportJSONConfig(value);
+              setImportedJSONConfig(value);
             }}
+            height={250}
           />
         </Dialog>
         <Button onClick={() => setShowImportDialog(true)}> Import </Button>

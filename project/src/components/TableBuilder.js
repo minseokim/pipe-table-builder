@@ -8,7 +8,6 @@ import Header from './Header';
 import TableDashboard from './TableDashboard';
 
 // TODO :
-//        Disable operatorAmount when 'No Operator' is selected in filter
 //        Add color to column when selected
 //        Validate JSON Config(Nice-to-have)
 //        Styling
@@ -75,14 +74,13 @@ const TableBuilder = () => {
   };
 
   const handleImportConfig = (columnSettingsImport) => {
-    console.log('import :', columnSettingsImport);
     setColumnSettings(columnSettingsImport);
   };
 
   const handleExportConfig = () => {
     const exportJSONConfig = JSON.stringify(columnSettings);
     navigator.clipboard.writeText(exportJSONConfig);
-    // Export current state
+
     toaster.success('Table Settings', {
       description: `Table Settings Copied to Clipboard Successfully`,
     });

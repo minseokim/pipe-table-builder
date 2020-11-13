@@ -1,19 +1,19 @@
-import React from 'react';
 import {
-  Pane,
-  Heading,
-  Text,
-  SelectField,
-  TextInputField,
   Button,
+  Heading,
+  Pane,
+  SelectField,
+  Text,
+  TextInputField,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 // Constants for Filter Operators
 export const NO_OPERATOR_SELECTED = null;
 export const GREATER_THAN = 'Greater Than';
 export const LESS_THAN = 'Less Than';
-export const EQUAL_TO = 'Equals';
+export const EQUAL_TO = 'Equal To';
 export const NOT_EQUAL_TO = `Doesn't Equal`;
 
 const FilterPopover = ({
@@ -54,7 +54,7 @@ const FilterPopover = ({
           value={filterOperator}
           onChange={handleFilterOperatorInputChange}
         >
-          <option value={NO_OPERATOR_SELECTED}>Select an Operator</option>
+          <option value={NO_OPERATOR_SELECTED}>None</option>
           <option value={GREATER_THAN}>{GREATER_THAN}</option>
           <option value={LESS_THAN}>{LESS_THAN}</option>
           <option value={EQUAL_TO}>{EQUAL_TO}</option>
@@ -67,6 +67,7 @@ const FilterPopover = ({
           type="number"
           value={filterAmount}
           required
+          disabled={filterOperator === NO_OPERATOR_SELECTED}
           onChange={handleFilterAmountInputChange}
         />
       </Pane>
