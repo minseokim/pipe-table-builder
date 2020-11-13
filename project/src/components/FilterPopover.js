@@ -7,7 +7,7 @@ import {
   TextInputField,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 
 // Constants for Filter Operators
 export const NO_OPERATOR_SELECTED = null;
@@ -21,11 +21,14 @@ const FilterPopover = ({
   filterAmount,
   closePopover,
   onApplyFilter,
-  onFilterOperatorChange,
-  onFilterAmountChange,
 }) => {
+  const [filterOperatorInput, setFilterOperatorInput] = useState(
+    filterOperator
+  );
+  const [filterAmountInput, setFilterAmountInput] = useState(filterAmount || 0);
+
   const handleSaveButtonClick = () => {
-    onApplyFilter(filterOperator, filterAmount);
+    onApplyFilter(filterOperatorInput, filterAmountInput);
     closePopover();
   };
 
@@ -35,12 +38,12 @@ const FilterPopover = ({
   };
 
   const handleFilterOperatorInputChange = ({ target: { value } }) => {
-    onFilterOperatorChange(value);
+    setFilterOperatorInput(value);
   };
 
   const handleFilterAmountInputChange = ({ target: { value } }) => {
     // Convert Input(String) to Number here
-    onFilterAmountChange(+value);
+    setFilterAmountInput(+value);
   };
 
   return (
@@ -51,7 +54,7 @@ const FilterPopover = ({
         <SelectField
           label="Operator"
           description="Select an Operator"
-          value={filterOperator}
+          value={filterOperatorInput}
           onChange={handleFilterOperatorInputChange}
         >
           <option value={NO_OPERATOR_SELECTED}>None</option>
@@ -65,9 +68,9 @@ const FilterPopover = ({
           label="Amount"
           name="Amount"
           type="number"
-          value={filterAmount}
+          value={filterAmountInput}
           required
-          disabled={filterOperator === NO_OPERATOR_SELECTED}
+          disabled={filterOperatorInput === NO_OPERATOR_SELECTED}
           onChange={handleFilterAmountInputChange}
         />
       </Pane>
@@ -93,9 +96,6 @@ FilterPopover.propTypes = {
   filterAmount: PropTypes.number,
   closePopover: PropTypes.func.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
-  onFilterOperatorChange: PropTypes.func.isRequired,
-
-  onFilterAmountChange: PropTypes.func.isRequired,
 };
 
 export default FilterPopover;

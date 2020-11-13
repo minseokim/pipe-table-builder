@@ -19,6 +19,7 @@ const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
               name={columnSetting.name}
               isFilterable={columnSetting.isFilterable}
               shouldDisplay={columnSetting.shouldDisplay}
+              filterOperator={columnSetting.filterOperator}
               filterAmount={columnSetting.filterAmount}
               onApplyFilter={onApplyFilter}
               onColumnToggle={onColumnToggle}

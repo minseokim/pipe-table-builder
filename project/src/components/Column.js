@@ -11,35 +11,26 @@ import {
   Text,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React from 'react';
 import './Column.css';
-import FilterPopover, { NO_OPERATOR_SELECTED } from './FilterPopover';
+import FilterPopover from './FilterPopover';
 
 const Column = ({
   id,
   name,
   isFilterable,
+  filterOperator,
+  filterAmount,
+
   onApplyFilter,
   onColumnToggle,
   shouldDisplay,
 }) => {
-  const [filterOperator, setFilterOperator] = useState(NO_OPERATOR_SELECTED);
-
-  const [filterAmount, setFilterAmount] = useState(0);
-
-  const handleFilterOperatorChange = (value) => {
-    setFilterOperator(value);
-  };
-
-  const handleFilterAmountChange = (value) => {
-    setFilterAmount(+value);
-  };
-
   const handleCheckboxChange = ({ target: { checked } }) => {
     // Clear Filter Inputs when deselected
     if (!checked) {
-      setFilterOperator(NO_OPERATOR_SELECTED);
-      setFilterAmount(0);
+      // setFilterOperatorInput(NO_OPERATOR_SELECTED);
+      // setFilterAmountInput(0);
     }
 
     // Be sure to pass id here, instead of name
@@ -48,8 +39,8 @@ const Column = ({
   };
 
   const handleApplyFilter = (operator, amount) => {
-    setFilterOperator(operator);
-    setFilterAmount(amount);
+    // setFilterOperatorInput(operator);
+    // setFilterAmountInput(amount);
 
     onApplyFilter(id, operator, amount);
   };
@@ -92,8 +83,6 @@ const Column = ({
                     filterAmount={filterAmount}
                     closePopover={close}
                     onApplyFilter={handleApplyFilter}
-                    onFilterOperatorChange={handleFilterOperatorChange}
-                    onFilterAmountChange={handleFilterAmountChange}
                   />
                 );
               }}
@@ -110,10 +99,17 @@ const Column = ({
   );
 };
 
+Column.defaultProps = {
+  filterOperator: null,
+  filterAmount: null,
+};
+
 Column.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   isFilterable: PropTypes.bool.isRequired,
+  filterOperator: PropTypes.string,
+  filterAmount: PropTypes.number,
   shouldDisplay: PropTypes.bool.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
   onColumnToggle: PropTypes.func.isRequired,
