@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import ColumnList from './ColumnList';
 
 const EditPanel = ({ columnSettings, onColumnToggle }) => {
+  console.log('columnSettings :', columnSettings);
   return (
     <Pane flex={1} background="tint2" border="default" borderTop="muted">
       <Pane>
@@ -27,7 +28,7 @@ EditPanel.propTypes = {
       isFilterable: PropTypes.bool,
       filterAmount: PropTypes.number,
       shouldDisplay: PropTypes.bool.isRequired,
-    })
+    }).isRequired
   ).isRequired,
   onColumnToggle: PropTypes.func.isRequired,
 };

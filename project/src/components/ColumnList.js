@@ -35,7 +35,7 @@ ColumnList.propTypes = {
       isFilterable: PropTypes.bool,
       filterAmount: PropTypes.number,
       shouldDisplay: PropTypes.bool.isRequired,
-    })
+    }).isRequired
   ).isRequired,
   onColumnToggle: PropTypes.func.isRequired,
 };

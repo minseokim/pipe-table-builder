@@ -1,15 +1,17 @@
 import React from 'react';
 import { Pane, Table } from 'evergreen-ui';
-import customerData from '../dataSource/customerData';
+import PropTypes from 'prop-types';
 
-const ViewTable = () => {
-  const columnList = Object.keys(customerData[0]);
+const ViewTable = ({ columnSettings, customerData }) => {
+  const selectedColumnList = Object.keys(columnSettings).filter(
+    (columnName) => columnSettings[columnName].shouldDisplay
+  );
 
   return (
     <Pane flex={3} background="tint1">
       <Table>
         <Table.Head>
-          {columnList.map((column) => (
+          {selectedColumnList.map((column) => (
             <Table.TextHeaderCell key={column}>{column}</Table.TextHeaderCell>
           ))}
         </Table.Head>
@@ -31,6 +33,29 @@ const ViewTable = () => {
       </Table>
     </Pane>
   );
+};
+
+ViewTable.propTypes = {
+  customerData: PropTypes.arrayOf(
+    PropTypes.shape({
+      customerName: PropTypes.string.isRequired,
+      status: PropTypes.string.isRequired,
+      syncedFrom: PropTypes.string,
+      startDate: PropTypes.string,
+      mrr: PropTypes.number,
+      termLength: PropTypes.number,
+      invoiceNo: PropTypes.number,
+    }).isRequired
+  ).isRequired,
+  columnSettings: PropTypes.shape(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      isFilterable: PropTypes.bool,
+      filterAmount: PropTypes.number,
+      shouldDisplay: PropTypes.bool.isRequired,
+    }).isRequired
+  ).isRequired,
 };
 
 export default ViewTable;

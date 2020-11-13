@@ -1,4 +1,4 @@
-const customerData = [
+const customerDataSource = [
   {
     customerName: 'Basecamp',
     status: 'available',
@@ -82,4 +82,4 @@ const customerData = [
   },
 ];
 
-export default customerData;
+export default customerDataSource;

@@ -4,9 +4,12 @@ import { Pane, majorScale } from 'evergreen-ui';
 import { produce } from 'immer';
 import EditPanel from './EditPanel';
 import ViewTable from './ViewTable';
-import customerData from '../dataSource/customerData';
+import customerDataSource from '../dataSource/customerDataSource';
 
 const TableDashboard = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [customerData, setCustomerData] = useState(customerDataSource);
+
   const [columnSettings, setColumnSettings] = useState(null);
 
   useEffect(() => {
@@ -54,7 +57,10 @@ const TableDashboard = () => {
             columnSettings={columnSettings}
             onColumnToggle={handleColumnToggle}
           />
-          <ViewTable />
+          <ViewTable
+            columnSettings={columnSettings}
+            customerData={customerData}
+          />
         </>
       ) : null}
     </Pane>
