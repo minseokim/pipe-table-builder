@@ -8,6 +8,12 @@ import { NO_OPERATOR_SELECTED } from './FilterPopover';
 import Header from './Header';
 import TableDashboard from './TableDashboard';
 
+// TODO's(For future iterations) :
+// - Validate JSON Import(For valid JSON, schema)
+// - Instead of importing the data directly, connect to an API
+// - Unit tests
+// - More styling
+
 const TableBuilder = () => {
   // eslint-disable-next-line no-unused-vars
   const [customerDataList, setCustomerDataList] = useState(customerDataSource);
