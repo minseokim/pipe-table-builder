@@ -1,10 +1,17 @@
 /* eslint-disable no-param-reassign */
-import React, { useState, useEffect } from 'react';
-import { Pane, majorScale } from 'evergreen-ui';
+import { majorScale, Pane } from 'evergreen-ui';
 import { produce } from 'immer';
+import React, { useEffect, useState } from 'react';
+import customerDataSource from '../dataSource/customerDataSource';
 import EditPanel from './EditPanel';
 import ViewTable from './ViewTable';
-import customerDataSource from '../dataSource/customerDataSource';
+
+// TODO : Refactor using Context
+//        Disable operatorAmount when 'No Operator' is selected in filter
+//        Add color to column when selected
+//        Validate JSON Config(Nice-to-have)
+//        Styling
+//        Unit Tests()
 
 const TableDashboard = () => {
   // eslint-disable-next-line no-unused-vars
