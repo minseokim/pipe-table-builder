@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Pane,
   Heading,
@@ -16,24 +16,31 @@ export const LESS_THAN = 'Less Than';
 export const EQUAL_TO = 'Equals';
 export const NOT_EQUAL_TO = `Doesn't Equal`;
 
-const FilterPopover = ({ closePopover, onApplyFilter }) => {
-  const [filterOperatorInput, setFilterOperatorInput] = useState(
-    NO_OPERATOR_SELECTED
-  );
-  const [filterAmountInput, setFilterAmountInput] = useState(0);
+const FilterPopover = ({
+  filterOperator,
+  filterAmount,
+  closePopover,
+  onApplyFilter,
+  onFilterOperatorChange,
+  onFilterAmountChange,
+}) => {
+  const handleSaveButtonClick = () => {
+    onApplyFilter(filterOperator, filterAmount);
+    closePopover();
+  };
 
-  const handleSaveClick = () => {
-    onApplyFilter(filterOperatorInput, filterAmountInput);
+  const handleClearButtonClick = () => {
+    onApplyFilter(NO_OPERATOR_SELECTED, 0);
     closePopover();
   };
 
   const handleFilterOperatorInputChange = ({ target: { value } }) => {
-    setFilterOperatorInput(value);
+    onFilterOperatorChange(value);
   };
 
   const handleFilterAmountInputChange = ({ target: { value } }) => {
     // Convert Input(String) to Number here
-    setFilterAmountInput(+value);
+    onFilterAmountChange(+value);
   };
 
   return (
@@ -44,6 +51,7 @@ const FilterPopover = ({ closePopover, onApplyFilter }) => {
         <SelectField
           label="Operator"
           description="Select an Operator"
+          value={filterOperator}
           onChange={handleFilterOperatorInputChange}
         >
           <option value={NO_OPERATOR_SELECTED}>Select an Operator</option>
@@ -57,23 +65,36 @@ const FilterPopover = ({ closePopover, onApplyFilter }) => {
           label="Amount"
           name="Amount"
           type="number"
+          value={filterAmount}
           required
           onChange={handleFilterAmountInputChange}
         />
       </Pane>
       <Pane display="flex">
-        <Button appearance="primary" onClick={handleSaveClick}>
+        <Button appearance="primary" onClick={handleSaveButtonClick}>
           Save
         </Button>
-        <Button appearance="default">Clear</Button>
+        <Button appearance="default" onClick={handleClearButtonClick}>
+          Clear
+        </Button>
       </Pane>
     </Pane>
   );
 };
 
+FilterPopover.defaultProps = {
+  filterOperator: NO_OPERATOR_SELECTED,
+  filterAmount: 0,
+};
+
 FilterPopover.propTypes = {
+  filterOperator: PropTypes.string,
+  filterAmount: PropTypes.number,
   closePopover: PropTypes.func.isRequired,
   onApplyFilter: PropTypes.func.isRequired,
+  onFilterOperatorChange: PropTypes.func.isRequired,
+
+  onFilterAmountChange: PropTypes.func.isRequired,
 };
 
 export default FilterPopover;

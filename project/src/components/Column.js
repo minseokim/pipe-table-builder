@@ -9,7 +9,7 @@ import {
   Text,
 } from 'evergreen-ui';
 import PropTypes from 'prop-types';
-import FilterPopover from './FilterPopover';
+import FilterPopover, { NO_OPERATOR_SELECTED } from './FilterPopover';
 
 const Column = ({
   name,
@@ -20,6 +20,18 @@ const Column = ({
 }) => {
   const [isColumnSelected, setIsColumnSelected] = useState(shouldDisplay);
 
+  const [filterOperator, setFilterOperator] = useState(NO_OPERATOR_SELECTED);
+
+  const [filterAmount, setFilterAmount] = useState(0);
+
+  const handleFilterOperatorChange = (value) => {
+    setFilterOperator(value);
+  };
+
+  const handleFilterAmountChange = (value) => {
+    setFilterAmount(+value);
+  };
+
   const handleCheckboxChange = ({ target }) => {
     // Toggle Checkbox
     setIsColumnSelected(target.checked);
@@ -28,8 +40,11 @@ const Column = ({
     onColumnToggle(name, target.checked);
   };
 
-  const handleApplyFilter = (filterOperator, filterAmount) => {
-    onApplyFilter(name, filterOperator, filterAmount);
+  const handleApplyFilter = (operator, amount) => {
+    setFilterOperator(operator);
+    setFilterAmount(amount);
+
+    onApplyFilter(name, operator, amount);
   };
 
   return (
@@ -47,8 +62,12 @@ const Column = ({
           content={({ close }) => {
             return (
               <FilterPopover
+                filterOperator={filterOperator}
+                filterAmount={filterAmount}
                 closePopover={close}
                 onApplyFilter={handleApplyFilter}
+                onFilterOperatorChange={handleFilterOperatorChange}
+                onFilterAmountChange={handleFilterAmountChange}
               />
             );
           }}
