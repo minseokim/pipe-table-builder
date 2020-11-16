@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { majorScale, Pane } from 'evergreen-ui';
+import { Pane } from 'evergreen-ui';
 import PropTypes from 'prop-types';
 import React from 'react';
 import EditPanel from './EditPanel';
@@ -12,11 +12,7 @@ const TableDashboard = ({
   onApplyFilter,
 }) => {
   return (
-    <Pane
-      height={`calc(100vh - ${majorScale(7)}px)`}
-      display="flex"
-      background="tint2"
-    >
+    <Pane display="flex" background="tint2">
       <EditPanel
         columnSettings={columnSettings}
         onColumnToggle={onColumnToggle}

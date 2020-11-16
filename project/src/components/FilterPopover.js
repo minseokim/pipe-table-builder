@@ -41,6 +41,11 @@ const FilterPopover = ({
   };
 
   const handleFilterOperatorInputChange = ({ target: { value } }) => {
+    // Handle Weird edge case where dropdown option element's text, instead of 'value' property gets applied(TODO : Double-check evergreen ui's docs)
+    if (value === 'None') {
+      setFilterOperatorInput(NO_OPERATOR_SELECTED);
+      return;
+    }
     setFilterOperatorInput(value);
   };
 
