@@ -1,9 +1,22 @@
 import { majorScale, Pane, UnorderedList } from 'evergreen-ui';
-import PropTypes from 'prop-types';
 import React from 'react';
-import Column from './Column';
+import { Column } from '../Column';
+import { ColumnSettings } from '../../typeDefs';
+interface ColumnListProps {
+  columnSettings: ColumnSettings;
+  onApplyFilter: (
+    columnName: string,
+    filterOperator: string,
+    filterAmount: number
+  ) => void;
+  onColumnToggle: (columnName: string, isSelected: boolean) => void;
+}
 
-const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
+export const ColumnList = ({
+  columnSettings,
+  onApplyFilter,
+  onColumnToggle,
+}: ColumnListProps): JSX.Element => {
   const columnIDList = Object.keys(columnSettings);
 
   return (
@@ -30,19 +43,3 @@ const ColumnList = ({ columnSettings, onApplyFilter, onColumnToggle }) => {
     </Pane>
   );
 };
-
-ColumnList.propTypes = {
-  columnSettings: PropTypes.shape(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isFilterable: PropTypes.bool,
-      filterAmount: PropTypes.number,
-      shouldDisplay: PropTypes.bool.isRequired,
-    }).isRequired
-  ).isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  onColumnToggle: PropTypes.func.isRequired,
-};
-
-export default ColumnList;

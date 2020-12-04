@@ -7,24 +7,31 @@ import {
   Text,
   TextInputField,
 } from 'evergreen-ui';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 // Constants for Filter Operators
-export const NO_OPERATOR_SELECTED = null;
+export const NO_OPERATOR_SELECTED = '';
 export const GREATER_THAN = 'Greater Than';
 export const LESS_THAN = 'Less Than';
 export const EQUAL_TO = 'Equal To';
 export const NOT_EQUAL_TO = `Doesn't Equal`;
 
-const FilterPopover = ({
+interface FilterPopoverProps {
+  filterName: string;
+  filterOperator: string;
+  filterAmount: number;
+  closePopover: () => void;
+  onApplyFilter: (operator: string, amount: number) => void;
+}
+
+export const FilterPopover = ({
   filterName,
   filterOperator,
   filterAmount,
   closePopover,
   onApplyFilter,
-}) => {
-  const [filterOperatorInput, setFilterOperatorInput] = useState(
+}: FilterPopoverProps): JSX.Element => {
+  const [filterOperatorInput, setFilterOperatorInput] = useState<string>(
     filterOperator
   );
   // Default to 0 if null
@@ -40,7 +47,9 @@ const FilterPopover = ({
     closePopover();
   };
 
-  const handleFilterOperatorInputChange = ({ target: { value } }) => {
+  const handleFilterOperatorInputChange = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLSelectElement>) => {
     // Handle Weird edge case where dropdown option element's text, instead of 'value' property gets applied(TODO : Double-check evergreen ui's docs)
     if (value === 'None') {
       setFilterOperatorInput(NO_OPERATOR_SELECTED);
@@ -49,7 +58,9 @@ const FilterPopover = ({
     setFilterOperatorInput(value);
   };
 
-  const handleFilterAmountInputChange = ({ target: { value } }) => {
+  const handleFilterAmountInputChange = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
     // Convert Input(String) to Number here
     setFilterAmountInput(+value);
   };
@@ -110,13 +121,3 @@ const FilterPopover = ({
     </Pane>
   );
 };
-
-FilterPopover.propTypes = {
-  filterName: PropTypes.string.isRequired,
-  filterOperator: PropTypes.string.isRequired,
-  filterAmount: PropTypes.number.isRequired,
-  closePopover: PropTypes.func.isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-};
-
-export default FilterPopover;

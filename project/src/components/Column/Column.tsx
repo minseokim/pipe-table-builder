@@ -10,12 +10,25 @@ import {
   Popover,
   Text,
 } from 'evergreen-ui';
-import PropTypes from 'prop-types';
 import React from 'react';
 import './Column.css';
-import FilterPopover from './FilterPopover';
+import { FilterPopover } from '../FilterPopover';
 
-const Column = ({
+interface ColumnProps {
+  id: string;
+  name: string;
+  isFilterable: boolean;
+  filterOperator: string;
+  filterAmount: number;
+  shouldDisplay: boolean;
+  onApplyFilter: (
+    columnName: string,
+    filterOperator: string,
+    filterAmount: number
+  ) => void;
+  onColumnToggle: (columnName: string, isSelected: boolean) => void;
+}
+export const Column = ({
   id,
   name,
   isFilterable,
@@ -24,14 +37,16 @@ const Column = ({
   onApplyFilter,
   onColumnToggle,
   shouldDisplay,
-}) => {
-  const handleCheckboxChange = ({ target: { checked } }) => {
+}: ColumnProps): JSX.Element => {
+  const handleCheckboxChange = ({
+    target: { checked },
+  }: React.ChangeEvent<HTMLInputElement>) => {
     // Be sure to pass id here, instead of name
     // ex) key : 'termLength', name: 'Term Length'
     onColumnToggle(id, checked);
   };
 
-  const handleApplyFilter = (operator, amount) => {
+  const handleApplyFilter = (operator: string, amount: number) => {
     onApplyFilter(id, operator, amount);
   };
 
@@ -40,7 +55,7 @@ const Column = ({
       display="flex"
       justifyContent="space-between"
       alignItems="center"
-      className={shouldDisplay ? 'selected' : null}
+      className={shouldDisplay ? 'selected' : ''}
       paddingLeft={majorScale(1)}
       margin={0}
     >
@@ -89,21 +104,3 @@ const Column = ({
     </ListItem>
   );
 };
-
-Column.defaultProps = {
-  filterOperator: null,
-  filterAmount: null,
-};
-
-Column.propTypes = {
-  id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
-  isFilterable: PropTypes.bool.isRequired,
-  filterOperator: PropTypes.string,
-  filterAmount: PropTypes.number,
-  shouldDisplay: PropTypes.bool.isRequired,
-  onApplyFilter: PropTypes.func.isRequired,
-  onColumnToggle: PropTypes.func.isRequired,
-};
-
-export default Column;

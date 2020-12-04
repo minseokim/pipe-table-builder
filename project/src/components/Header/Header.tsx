@@ -7,14 +7,24 @@ import {
   Pane,
   Textarea,
 } from 'evergreen-ui';
-import PropTypes from 'prop-types';
 import React, { useState } from 'react';
+import { ColumnSettings } from '../../typeDefs';
 
 const IMPORT_BUTTON_COPY = `Import Table Config`;
 
-const Header = ({ onImportConfig, onExportConfig }) => {
+interface HeaderProps {
+  onImportConfig: (columnSettings: ColumnSettings) => void;
+  onExportConfig: () => void;
+}
+
+export const Header = ({
+  onImportConfig,
+  onExportConfig,
+}: HeaderProps): JSX.Element => {
   const [showImportDialog, setShowImportDialog] = useState(false);
-  const [importedJSONConfig, setImportedJSONConfig] = useState(null);
+  const [importedJSONConfig, setImportedJSONConfig] = useState<string | null>(
+    null
+  );
 
   const handleImportConfig = () => {
     setShowImportDialog(false);
@@ -51,7 +61,11 @@ const Header = ({ onImportConfig, onExportConfig }) => {
           <Textarea
             id="json-config"
             placeholder="Paste JSON Config Here"
-            onChange={({ target: { value } }) => {
+            onChange={({
+              target: { value },
+            }: {
+              target: { value: string };
+            }) => {
               setImportedJSONConfig(value);
             }}
             height={250}
@@ -69,10 +83,3 @@ const Header = ({ onImportConfig, onExportConfig }) => {
     </Pane>
   );
 };
-
-Header.propTypes = {
-  onImportConfig: PropTypes.func.isRequired,
-  onExportConfig: PropTypes.func.isRequired,
-};
-
-export default Header;

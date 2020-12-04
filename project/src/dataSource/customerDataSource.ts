@@ -1,4 +1,6 @@
-const customerDataSource = [
+import { CustomerData } from '../typeDefs';
+
+export const customerDataSource: CustomerData[] = [
   {
     customerName: 'Basecamp',
     status: 'available',
@@ -81,5 +83,3 @@ const customerDataSource = [
     invoiceNo: 9,
   },
 ];
-
-export default customerDataSource;

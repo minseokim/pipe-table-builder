@@ -1,15 +1,23 @@
 import { majorScale, minorScale, Pane, Table } from 'evergreen-ui';
-import PropTypes from 'prop-types';
 import React from 'react';
+import { ColumnSettings, CustomerData } from '../../typeDefs';
 import {
   EQUAL_TO,
   GREATER_THAN,
   LESS_THAN,
   NOT_EQUAL_TO,
   NO_OPERATOR_SELECTED,
-} from './FilterPopover';
+} from '../FilterPopover/FilterPopover';
 
-const ViewTable = ({ columnSettings, customerDataList }) => {
+interface ViewTableProps {
+  columnSettings: ColumnSettings;
+  customerDataList: CustomerData[];
+}
+
+export const ViewTable = ({
+  columnSettings,
+  customerDataList,
+}: ViewTableProps): JSX.Element => {
   const columnIDList = Object.keys(columnSettings);
   const selectedColumnIDList = columnIDList.filter(
     (ID) => columnSettings[ID].shouldDisplay
@@ -66,28 +74,3 @@ const ViewTable = ({ columnSettings, customerDataList }) => {
     </Pane>
   );
 };
-
-ViewTable.propTypes = {
-  customerDataList: PropTypes.arrayOf(
-    PropTypes.shape({
-      customerName: PropTypes.string.isRequired,
-      status: PropTypes.string.isRequired,
-      syncedFrom: PropTypes.string,
-      startDate: PropTypes.string,
-      mrr: PropTypes.number,
-      termLength: PropTypes.number,
-      invoiceNo: PropTypes.number,
-    }).isRequired
-  ).isRequired,
-  columnSettings: PropTypes.shape(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      isFilterable: PropTypes.bool,
-      filterAmount: PropTypes.number,
-      shouldDisplay: PropTypes.bool.isRequired,
-    }).isRequired
-  ).isRequired,
-};
-
-export default ViewTable;
